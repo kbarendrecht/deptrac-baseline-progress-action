@@ -2,29 +2,17 @@ on:
   pull_request:
 jobs:
   test-action:
-    runs-on: namespace-profile-psalm-baseline-progress-action
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/checkout@v5
-
-      - name: 'Action with default settings'
-        id: psalm-baseline-progress-action
+      - uses: actions/checkout@v3
+      - name: deptrac-baseline-progress-action
+        id: deptrac-baseline-progress-action
         uses: ./
-
-      - name: 'Action without xpath condition'
-        uses: ./
-        with:
-          file_xpath_condition: ''
-
-      - name: 'Action with custom xpath condition'
-        uses: ./
-        with:
-          file_xpath_condition: 'not(starts-with(@src, "test/") or starts-with(@src, "foo/"))'
-
       - name: Comment on PR
-        uses: thollander/actions-comment-pull-request@v3
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          message: ${{ steps.psalm-baseline-progress-action.outputs.output_message }}
-          comment-tag: 'psalm_baseline_score_comment'
-          create-if-not-exists: ${{ steps.psalm-baseline-progress-action.outputs.score_diff != 0 }} # Only create comment when baseline score changed, but always update existing comment
+          message: ${{ steps.deptrac-baseline-progress-action.outputs.output_message }}
+          comment_tag: 'deptrac_baseline_score_comment'
+          create_if_not_exists: ${{ steps.deptrac-baseline-progress-action.outputs.score_diff != 0 }} # Only create comment when baseline score changed, but always update existing comment
