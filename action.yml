@@ -1,5 +1,5 @@
-name: 'Psalm baseline progress'
-description: 'Calculates psalm baseline diff'
+name: 'deptrac baseline progress'
+description: 'Calculates deptrac baseline diff'
 branding: 
   icon: file-minus
   color: purple
@@ -15,19 +15,19 @@ inputs:
   path_to_baseline:
     description: 'Path to the baseline file'
     required: false
-    default: './psalm-baseline.xml'
+    default: './deptrac.baseline.yaml'
   template_decreased:
     description: 'Template to use when the baseline has decreased'
     required: false
-    default: '🍀 Psalm baseline has decreased: **$BASE_SCORE** → **$HEAD_SCORE** _(**${SCORE_DIFF}**)_'
+    default: '🍀 deptrac baseline has decreased: **$BASE_SCORE** → **$HEAD_SCORE** _(**${SCORE_DIFF}**)_'
   template_increased:
     description: 'Template to use when the baseline has grown'
     required: false
-    default: '📛 Psalm baseline has increased: **$BASE_SCORE** → **$HEAD_SCORE** _(**+${SCORE_DIFF}**)_'
+    default: '📛 deptrac baseline has increased: **$BASE_SCORE** → **$HEAD_SCORE** _(**+${SCORE_DIFF}**)_'
   template_no_change:
     description: 'Template to use when the baseline score hasn''t changed'
     required: false
-    default: 'Psalm baseline score remained the same: **$HEAD_SCORE**'
+    default: 'deptrac baseline score remained the same: **$HEAD_SCORE**'
 outputs:
   base_score:
     description: 'Baseline score for the pull request base'

@@ -1,0 +1,6 @@
+deptrac:
+  skip_violations:
+    Something\Something\Something\DeptracBaseLineProgressAction:
+      - Something\Something\DeptracBaseLineProgressAction
+    Something\Something\Else\DeptracBaseLineProgressAction:
+       - Something\Something\Else\DeptracBaseLineProgressAction
