@@ -1,8 +1,8 @@
-# Psalm baseline progress
-A GitHub action that calculates the size of your psalm baseline.
+# deptrac baseline progress
+A GitHub action that calculates the size of your deptrac baseline.
 Allowing you to track the progress of your baseline over time.
 
-The score is the total number of occurrences of `<code></code>` blocks in the baseline
+The score is the total number of lines in the baseline file.
 
 ---
 
@@ -25,7 +25,7 @@ The score is the total number of occurrences of `<code></code>` blocks in the ba
 |--------------------|-------------------------------------------|--------------------------------------------------------------------------------------|
 | base_ref           | ${{ github.event.pull_request.base.sha }} | git ref to use for calculating the base_score                                        |
 | head_ref           | 'HEAD'                                    | git ref to use for calculating the head_score                                        |
-| path_to_baseline   | './psalm-baseline.xml'                    | Path to the baseline file                                                            |
+| path_to_baseline   | './deptrac.baseline.yaml'                 | Path to the baseline file                                                            |
 | template_decreased | See [Templates](#Templates)               | Template to use when the baseline has decreased (See [Templates](#Templates))        |
 | template_increased | See [Templates](#Templates)               | Template to use when the baseline has grown (See [Templates](#Templates))            |
 | template_no_change | See [Templates](#Templates)               | Template to use when the baseline score hasn't changed (See [Templates](#Templates)) |
@@ -50,7 +50,7 @@ The relevant template is parsed and output to `output_message` for you to use.
 #### Customising the templates
 ```yaml
 - id: baseline-scores
-  uses: annervisser/psalm-baseline-progress-action@v1
+  uses: kbarendrecht/deptrac-baseline-progress-action@v1
   with:
     template_decreased: 'Baseline decreased! from $BASE_SCORE to $HEAD_SCORE'
     template_increased: |
@@ -63,14 +63,14 @@ The relevant template is parsed and output to `output_message` for you to use.
 
 #### The default templates look like this:
 
-- `🍀 Psalm baseline has decreased: **$BASE_SCORE** → **$HEAD_SCORE** _(**${SCORE_DIFF}**)_` \
-🍀 Psalm baseline has decreased: **500** → **490** _(**-10**)_
+- `🍀 deptrac baseline has decreased: **$BASE_SCORE** → **$HEAD_SCORE** _(**${SCORE_DIFF}**)_` \
+🍀 deptrac baseline has decreased: **500** → **490** _(**-10**)_
 
-- `📛 Psalm baseline has increased: **$BASE_SCORE** → **$HEAD_SCORE** _(**+${SCORE_DIFF}**)_` \
-📛 Psalm baseline has increased: **500** → **510** _(+**10**)_
+- `📛 deptrac baseline has increased: **$BASE_SCORE** → **$HEAD_SCORE** _(**+${SCORE_DIFF}**)_` \
+📛 deptrac baseline has increased: **500** → **510** _(+**10**)_
 
-- `Psalm baseline score remained the same: **$HEAD_SCORE**` \
-Psalm baseline score remained the same: **500**
+- `deptrac baseline score remained the same: **$HEAD_SCORE**` \
+deptrac baseline score remained the same: **500**
 
 ## Examples
 
@@ -89,13 +89,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - id: baseline-scores
-        uses: annervisser/psalm-baseline-progress-action@v1
+        uses: kbarendrecht/deptrac-baseline-progress-action@v1
 
       - uses: thollander/actions-comment-pull-request@v2
         with:
-          message: ${{ steps.psalm-baseline-progress-action.outputs.output_message }}
-          comment_tag: 'psalm_baseline_score_comment'
-          create_if_not_exists: ${{ steps.psalm-baseline-progress-action.outputs.score_diff != 0 }} # Only create comment when baseline score changed, but always update existing comment
+          message: ${{ steps.deptrac-baseline-progress-action.outputs.output_message }}
+          comment_tag: 'deptrac_baseline_score_comment'
+          create_if_not_exists: ${{ steps.deptrac-baseline-progress-action.outputs.score_diff != 0 }} # Only create comment when baseline score changed, but always update existing comment
           # GITHUB_TOKEN: <a GitHub PAT> # Only needed to comment on pull requests coming from forks
 ```
 
@@ -110,7 +110,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - id: baseline-scores
-        uses: annervisser/psalm-baseline-progress-action@v1
+        uses: kbarendrecht/deptrac-baseline-progress-action@v1
 
       - if: steps.baseline-scores.outputs.score_diff > 0
         run: |

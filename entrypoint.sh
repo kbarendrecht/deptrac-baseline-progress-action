@@ -11,12 +11,12 @@ echo "::debug::HEAD: $HEAD_REF"
 echo "::debug::PATH_TO_BASELINE: $PATH_TO_BASELINE"
 
 get_baseline_score() {
-  if ! BASELINE_XML=$(git show "$1"); then
+  if ! BASELINE_YAML=$(git show "$1"); then
     echoerr "::error ::No baseline found at $1" 1>&2
     return 1
   fi
 
-  if ! BASELINE_SCORE=$(echo "$BASELINE_XML" | xmllint --xpath 'count(//file[not(starts-with(@src, "test"))]/*/code)' -); then
+  if ! BASELINE_SCORE=$(echo cat "$BASELINE_YAML" | wc -l); then
     echoerr "::error ::Unable to parse baseline at $1" 1>&2
     return 1
   fi
