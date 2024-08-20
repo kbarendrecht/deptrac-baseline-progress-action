@@ -4,6 +4,7 @@
         <ArgumentTypeCoercion>
             <code>$foo</code>
             <code>$bar</code>
+            <code>$baz</code>
         </ArgumentTypeCoercion>
     </file>
 </files>
