@@ -6,18 +6,20 @@ set -eu
 git config --global --add safe.directory /github/workspace
 
 # Log inputs for debugging
-echo "::debug::BASE: $BASE_REF"
-echo "::debug::HEAD: $HEAD_REF"
-echo "::debug::PATH_TO_BASELINE: $PATH_TO_BASELINE"
+echo "::group::Inputs"
+echo "BASE:             $BASE_REF"
+echo "HEAD:             $HEAD_REF"
+echo "PATH_TO_BASELINE: $PATH_TO_BASELINE"
+echo "::endgroup::"
 
 get_baseline_score() {
   if ! BASELINE_YAML=$(git show "$1"); then
-    echoerr "::error ::No baseline found at $1" 1>&2
+    echo "::error ::No baseline found at $1" 1>&2
     return 1
   fi
 
-  if ! BASELINE_SCORE=$(echo cat "$BASELINE_YAML" | wc -l); then
-    echoerr "::error ::Unable to parse baseline at $1" 1>&2
+  if ! BASELINE_SCORE=$(echo "$BASELINE_YAML" | awk '/^[[:space:]]*- /{n++} END{print n+0}'); then
+    echo "::error ::Unable to parse baseline at $1" 1>&2
     return 1
   fi
 
