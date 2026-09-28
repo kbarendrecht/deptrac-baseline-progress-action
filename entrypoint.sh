@@ -2,9 +2,6 @@
 
 set -eu
 
-# Mark the checkout as safe
-git config --global --add safe.directory /github/workspace
-
 # Log inputs for debugging
 echo "::group::Inputs"
 echo "BASE:             $BASE_REF"
