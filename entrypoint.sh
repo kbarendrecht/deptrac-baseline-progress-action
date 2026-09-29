@@ -2,6 +2,9 @@
 
 set -eu
 
+# Job containers run as a different user than the checkout owner
+git() { command git -c safe.directory="$PWD" "$@"; }
+
 # Log inputs for debugging
 echo "::group::Inputs"
 echo "BASE:             $BASE_REF"
