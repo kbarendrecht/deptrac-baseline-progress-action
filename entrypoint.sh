@@ -15,7 +15,7 @@ get_baseline_score() {
     return 1
   fi
 
-  if ! BASELINE_SCORE=$(echo "$BASELINE_YAML" | awk '/^[[:space:]]*- /{n++} END{print n+0}'); then
+  if ! BASELINE_SCORE=$(printf '%s\n' "$BASELINE_YAML" | awk '/^[[:space:]]*- /{n++} END{print n+0}'); then
     echo "::error ::Unable to parse baseline at $1" 1>&2
     return 1
   fi
@@ -51,7 +51,7 @@ fi
 
 export BASE_SCORE HEAD_SCORE SCORE_DIFF SCORE_DIFF_STRING
 # shellcheck disable=SC2016
-OUTPUT_MESSAGE=$(echo "$TEMPLATE" | envsubst '$BASE_SCORE $HEAD_SCORE $SCORE_DIFF $SCORE_DIFF_STRING')
+OUTPUT_MESSAGE=$(printf '%s\n' "$TEMPLATE" | envsubst '$BASE_SCORE $HEAD_SCORE $SCORE_DIFF $SCORE_DIFF_STRING')
 
 # Set outputs
 {
@@ -64,6 +64,6 @@ OUTPUT_MESSAGE=$(echo "$TEMPLATE" | envsubst '$BASE_SCORE $HEAD_SCORE $SCORE_DIF
 # Output message could be multiline, use heredoc
 {
   echo "output_message<<EOF"
-  echo "$OUTPUT_MESSAGE"
+  printf '%s\n' "$OUTPUT_MESSAGE"
   echo "EOF"
 } >>"$GITHUB_OUTPUT"
